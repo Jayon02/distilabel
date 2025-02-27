@@ -1,0 +1,13 @@
+from distilabel.models.llms import SGLang
+if __name__ == "__main__":
+    llm = SGLang(
+        model="prometheus-eval/prometheus-7b-v2.0",
+        chat_template="[INST] {{ messages[0]['content']}} [/INST]"
+    )
+
+    llm.load()
+    # Call the model        
+    output = llm.generate_outputs(inputs=[[{"role": "user", "content": "Hello world!"}]])
+
+    print(output)
+

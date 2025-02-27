@@ -1,0 +1,281 @@
+distilabel:
+  version: 1.5.3
+pipeline:
+  connections:
+  - from: text_generation_0
+    to: []
+  - from: load_data_from_hub_0
+    to:
+    - text_generation_0
+  description: A pipeline to generate data from a distilled r1 model
+  name: distill-qwen-7b-r1
+  routing_batch_functions: []
+  steps:
+  - name: text_generation_0
+    step:
+      add_raw_input: true
+      add_raw_output: true
+      columns:
+      - instruction
+      group_generations: false
+      input_batch_size: 50
+      input_mappings:
+        instruction: problem
+      llm:
+        chat_template: null
+        cuda_devices: auto
+        disable_cuda_device_placement: false
+        dtype: auto
+        extra_kwargs:
+          context_length: 8192
+          tp_size: 1
+        generation_kwargs:
+          max_new_tokens: 8192
+          temperature: 0.6
+        jobs_ids: null
+        magpie_pre_query_template: null
+        model: deepseek-ai/DeepSeek-R1-Distill-Qwen-7B
+        offline_batch_generation_block_until_done: null
+        quantization: null
+        revision: null
+        seed: 0
+        skip_tokenizer_init: false
+        structured_output: null
+        tokenizer: deepseek-ai/DeepSeek-R1-Distill-Qwen-7B
+        tokenizer_mode: auto
+        trust_remote_code: false
+        type_info:
+          module: distilabel.models.llms.sglang
+          name: SGLang
+        use_magpie_template: false
+        use_offline_batch_generation: false
+      name: text_generation_0
+      num_generations: 4
+      output_mappings: {}
+      resources:
+        cpus: null
+        gpus: null
+        memory: null
+        replicas: 1
+        resources: null
+      runtime_parameters_info:
+      - name: resources
+        runtime_parameters_info:
+        - description: The number of replicas for the step.
+          name: replicas
+          optional: true
+        - description: The number of CPUs assigned to each step replica.
+          name: cpus
+          optional: true
+        - description: The number of GPUs assigned to each step replica.
+          name: gpus
+          optional: true
+        - description: The memory in bytes required for each step replica.
+          name: memory
+          optional: true
+        - description: A dictionary containing names of custom resources and the number
+            of those resources required for each step replica.
+          name: resources
+          optional: true
+      - description: The number of rows that will contain the batches processed by
+          the step.
+        name: input_batch_size
+        optional: true
+      - name: llm
+        runtime_parameters_info:
+        - description: A list with the ID of the CUDA devices to be used.
+          name: cuda_devices
+          optional: true
+        - description: Whether to disable the CUDA device placement logic or not.
+          name: disable_cuda_device_placement
+          optional: true
+        - description: The kwargs to be propagated to either `generate` or `agenerate`
+            methods within each `LLM`.
+          keys:
+          - description: the maximum number of new tokens that the model will generate.  Defaults
+              to `128`.
+            name: max_new_tokens
+            optional: true
+          - description: a list of strings that will be used to stop the generation
+              when found.  Defaults to `None`.
+            name: stop
+            optional: true
+          - description: a list of token ids that will be used to stop the generation  when
+              found. Defaults to `None`.
+            name: stop_token_ids
+            optional: true
+          - description: the temperature to use for the generation. Defaults to `0.1`.
+            name: temperature
+            optional: true
+          - description: the top-p value to use for the generation. Defaults to `1.0`.
+            name: top_p
+            optional: true
+          - description: the top-k value to use for the generation. Defaults to `0`.
+            name: top_k
+            optional: true
+          - description: the minimum probability to use for the generation. Defaults
+              to `0.0`.
+            name: min_p
+            optional: true
+          - description: the repetition penalty to use for the generation. Defaults  to
+              `0.0`.
+            name: frequency_penalty
+            optional: true
+          - description: the presence penalty to use for the generation. Defaults
+              to  `0.0`.
+            name: presence_penalty
+            optional: true
+          - description: the repetition penalty to use for the generation Defaults
+              to  `1.0`.
+            name: repetition_penalty
+            optional: true
+          - description: Forces the model to generate at least `min_new_tokens` until  a
+              stop word or EOS token is sampled. Defaults to `0`.
+            name: min_new_tokens
+            optional: true
+          - description: Whether or not to add spaces between special  tokens during
+              detokenization. Defaults to `True`.
+            name: spaces_between_special_tokens
+            optional: true
+          - description: json structure output. Defaults to `None`.
+            name: json_schema
+            optional: true
+          - description: regex structure output. Defaults to `None`.
+            name: regex
+            optional: true
+          - description: Don't trim stop words or EOS token from the generated text.  Defaults
+              to `False`.
+            name: no_stop_trim
+            optional: true
+          - description: Don't stop generation when EOS token is sampled. Defaults
+              to `False`.
+            name: ignore_eos
+            optional: true
+          - description: Whether to exclude special tokens from the output. Defaults  to
+              `False`.
+            name: skip_special_tokens
+            optional: true
+          - description: Used when employing `CustomLogitProcessor`. Defaults to `None`.
+            name: custom_params
+            optional: true
+          - description: Whether to return log probabilities for tokens. Defaults
+              to `False`.
+            name: return_logprob
+            optional: true
+          - description: If returning log probabilities, specifies the number of  top
+              logprobs to return at each position. Defaults to `0`.
+            name: top_logprobs_num
+            optional: true
+          - description: Whether to echo the include the prompt in the response or
+              not. Defaults  to `False`.
+            name: echo
+            optional: true
+          name: generation_kwargs
+        - description: Whether to use the `offline_batch_generate` method to generate
+            the responses.
+          name: use_offline_batch_generation
+          optional: true
+        - description: If provided, then polling will be done until the `ofline_batch_generate`
+            method is able to retrieve the results. The value indicate the time to
+            wait between each polling.
+          name: offline_batch_generation_block_until_done
+          optional: true
+        - description: 'Additional dictionary of keyword arguments that will be passed
+            to the `Engine` class of `sglang` library. See all the supported arguments
+            at: https://github.com/sgl-project/sglang/blob/main/python/sglang/srt/entrypoints/engine.py'
+          name: extra_kwargs
+          optional: true
+        - description: The structured output format to use across all the generations.
+          name: structured_output
+          optional: true
+      - description: Whether to include the raw output of the LLM in the key `raw_output_<TASK_NAME>`
+          of the `distilabel_metadata` dictionary output column
+        name: add_raw_output
+        optional: true
+      - description: Whether to include the raw input of the LLM in the key `raw_input_<TASK_NAME>`
+          of the `distilabel_metadata` dictionary column
+        name: add_raw_input
+        optional: true
+      - description: The number of generations to be produced per input.
+        name: num_generations
+        optional: true
+      system_prompt: null
+      template: "You will be given a problem. Please reason step by step, and put\
+        \ your final answer within \boxed{}:\n{{ instruction }}"
+      type_info:
+        module: distilabel.steps.tasks.text_generation
+        name: TextGeneration
+      use_cache: true
+      use_default_structured_output: false
+      use_system_prompt: true
+  - name: load_data_from_hub_0
+    step:
+      batch_size: 50
+      config: null
+      input_mappings: {}
+      name: load_data_from_hub_0
+      num_examples: 10
+      output_mappings: {}
+      repo_id: default_name
+      resources:
+        cpus: null
+        gpus: null
+        memory: null
+        replicas: 1
+        resources: null
+      revision: null
+      runtime_parameters_info:
+      - name: resources
+        runtime_parameters_info:
+        - description: The number of replicas for the step.
+          name: replicas
+          optional: true
+        - description: The number of CPUs assigned to each step replica.
+          name: cpus
+          optional: true
+        - description: The number of GPUs assigned to each step replica.
+          name: gpus
+          optional: true
+        - description: The memory in bytes required for each step replica.
+          name: memory
+          optional: true
+        - description: A dictionary containing names of custom resources and the number
+            of those resources required for each step replica.
+          name: resources
+          optional: true
+      - description: The number of rows that will contain the batches generated by
+          the step.
+        name: batch_size
+        optional: true
+      - description: The Hugging Face Hub repository ID of the dataset to load.
+        name: repo_id
+        optional: false
+      - description: The split of the dataset to load. Defaults to 'train'.
+        name: split
+        optional: true
+      - description: The configuration of the dataset to load. This is optional and
+          only needed if the dataset has multiple configurations.
+        name: config
+        optional: true
+      - description: The revision of the dataset to load. Defaults to the latest revision.
+        name: revision
+        optional: true
+      - description: Whether to load the dataset in streaming mode or not. Defaults
+          to False.
+        name: streaming
+        optional: true
+      - description: The number of examples to load from the dataset. By default will
+          load all examples.
+        name: num_examples
+        optional: true
+      split: train
+      storage_options: null
+      streaming: false
+      type_info:
+        module: distilabel.steps.generators.huggingface
+        name: LoadDataFromHub
+      use_cache: true
+  type_info:
+    module: distilabel.pipeline.local
+    name: Pipeline
+requirements: []

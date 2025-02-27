@@ -1,0 +1,56 @@
+from distilabel.steps.tasks import StructuredGeneration
+from distilabel.models import SGLang
+
+if __name__ == "__main__":
+
+    structured_gen = StructuredGeneration(
+        llm=SGLang(
+            model="Qwen/Qwen2-7B-Instruct",
+            tokenizer="Qwen/Qwen2-7B-Instruct",
+        ),
+    )
+
+    structured_gen.load()
+
+    result = next(
+        structured_gen.process(
+            [
+                {
+                    "instruction": "Create an RPG character",
+                    "structured_output": {
+                        "format": "json",
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "title": "Name",
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "title": "Description",
+                                    "type": "string"
+                                },
+                                "role": {
+                                    "title": "Role",
+                                    "type": "string"
+                                },
+                                "weapon": {
+                                    "title": "Weapon",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "name",
+                                "description",
+                                "role",
+                                "weapon"
+                            ],
+                            "title": "Character",
+                            "type": "object"
+                        }
+                    },
+                }
+            ]
+        )
+    )
+
+    print(result)

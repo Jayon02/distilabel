@@ -1,0 +1,72 @@
+{
+  "builder_name": "parquet",
+  "citation": "",
+  "config_name": "text_generation_0",
+  "dataset_name": "parquet",
+  "dataset_size": 51206,
+  "description": "",
+  "download_checksums": {
+    "/data/qiujiang/.cache/distilabel/pipelines/distill-qwen-7b-r1/53bedcbb53ca1db3fed4f15c1fb88e4d8a6089c8/executions/7eb79ab9747083783518ac383310c6bd9af83462/data/steps_outputs/text_generation_0/00001.parquet": {
+      "num_bytes": 36120,
+      "checksum": null
+    }
+  },
+  "download_size": 36120,
+  "features": {
+    "problem": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "solution": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "messages": [
+      {
+        "content": {
+          "dtype": "string",
+          "_type": "Value"
+        },
+        "role": {
+          "dtype": "string",
+          "_type": "Value"
+        }
+      }
+    ],
+    "generation": {
+      "dtype": "null",
+      "_type": "Value"
+    },
+    "model_name": {
+      "dtype": "null",
+      "_type": "Value"
+    },
+    "distilabel_metadata": {
+      "raw_input_text_generation_0": {
+        "dtype": "null",
+        "_type": "Value"
+      },
+      "raw_output_text_generation_0": {
+        "dtype": "null",
+        "_type": "Value"
+      }
+    }
+  },
+  "homepage": "",
+  "license": "",
+  "size_in_bytes": 87326,
+  "splits": {
+    "train": {
+      "name": "train",
+      "num_bytes": 51206,
+      "num_examples": 10,
+      "dataset_name": "parquet"
+    }
+  },
+  "version": {
+    "version_str": "0.0.0",
+    "major": 0,
+    "minor": 0,
+    "patch": 0
+  }
+}
